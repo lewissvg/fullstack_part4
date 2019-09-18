@@ -16,6 +16,18 @@ const favouriteBlog = blogs => {
   return blogs.find(blog => blog.likes === highestLikes);
 };
 
+const mostBlogs = blogs => {
+  const result = _(blogs)
+    .groupBy("author")
+    .map((blogs, key) => ({
+      author: key,
+      blogs: blogs.length
+    }))
+    .value();
+
+  return _.maxBy(result, blogs => blogs.blogs);
+};
+
 const mostLikes = blogs => {
   const totals = _(blogs)
     .groupBy("author")
@@ -32,5 +44,6 @@ module.exports = {
   dummy,
   totalLikes,
   favouriteBlog,
+  mostBlogs,
   mostLikes
 };
